@@ -12,7 +12,6 @@ public class IMH_TA_Case_BU_CheckDuplicateRecord implements TriggerAction.Before
                 
                 if (Limits.getCpuTime() >= (Limits.getLimitCpuTime() * 0.95)) throw new SCLTriggerException('Apex CPU time limit exceeded');
                 caseEmailIdKey = (case1.SCL_FormCampaignName__c + case1.SCL_FormEmail__c + case1.SCL_FormFirstName__c + case1.SCL_FormLastName__c).toLowercase().replace('null','');
-                system.debug('caseEmailIdKey '+caseEmailIdKey);
                 
                 casePhoneIdKey = (case1.SCL_FormCampaignName__c + case1.SCL_FormPhone__c + case1.SCL_FormFirstName__c + case1.SCL_FormLastName__c).toLowercase().replace('null',''); 
                 
