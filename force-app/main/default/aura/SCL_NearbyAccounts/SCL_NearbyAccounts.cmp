@@ -1,0 +1,34 @@
+<aura:component controller="SCL_NearbyAccounts" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:appHostable,force:lightningQuickAction" access="global" >
+	<aura:attribute name="recordId" type="String" access="public"/>
+    <aura:attribute type="SCL_NearbyAccounts.AccountWrapper[]" name="acctList"/>
+    <aura:attribute name="mycolumns" type="List"/>
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="sortedBy" type="String" default="distance"/>
+    <aura:attribute name="sortedDirection" type="String" default="asc"/>
+    <aura:handler name="init" value="{!this}" action="{!c.fetchAccounts}"/>
+    <div style="height:300px"> 
+        <aura:renderIf isTrue="{!$Browser.isPhone}">
+            <aura:iteration items="{!v.acctList}" var="acc" >
+                <lightning:tile>
+                    <h3><a onclick="{!c.navigate}" href="{!acc.linkName}" target="_blank">{!acc.name}</a></h3>
+                    <p class="slds-truncate" title="accountType">{!acc.accountType}</p>
+                    <p class="slds-truncate" title="accountTier">{!acc.accountTier}</p>
+                    <h3><a onclick="{!c.navigate}" href="{!acc.maplinkName}" target="_blank">{!acc.shippingStreet}</a></h3>
+                    <p class="slds-truncate" title="shippingzip">{!acc.shippingpostalcode}</p>
+                    <p class="slds-truncate" title="distance">Distance(Miles): {!acc.distance}</p>
+    		    </lightning:tile>
+            </aura:iteration>    
+            <aura:set attribute="else">
+                <lightning:datatable
+                    keyField="id"
+                    data="{! v.acctList }"
+                    columns="{!v.mycolumns}"
+                    hideCheckboxColumn="true"
+                    onsort="{!c.updateColumnSorting}"
+                    sortedBy="{!v.sortedBy}"
+                    sortedDirection="{!v.sortedDirection}"
+                    resizeColumnDisabled="true"/>
+            </aura:set>
+        </aura:renderIf>
+    </div>
+</aura:component>
